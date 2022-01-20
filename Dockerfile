@@ -13,8 +13,6 @@ RUN pacman -Sy --noconfirm archlinux-keyring pacman-mirrorlist && pacman-key --i
                           gcc make libjpeg-turbo protobuf-c \
                           ant nvidia-prime protobuf pandoc texlive-core && \
     rm -R /var/cache/pacman/pkg/* /var/lib/pacman/sync/* && \
-    \
-    \
     echo "Building webots and the player controller" && \
     export WEBOTS_HOME=/code/webots && \
     git clone -b archlinux https://github.com/SGSSGene/webots.git --depth 1 --recursive /code/webots && \
@@ -44,8 +42,10 @@ RUN pacman -Sy --noconfirm archlinux-keyring pacman-mirrorlist && pacman-key --i
     useradd someone -m && \
     mkdir /robocup && chown someone:someone /robocup
 
-USER someone
-COPY files/someone/entrypoint.sh /usr/bin/run
+COPY files/root/entrypoint.sh /usr/bin/run
+COPY files/etc/robocup /etc/robocup
 COPY --chown=someone:someone files/someone/ /home/someone
 
+USER someone
 WORKDIR /code/webots
+
