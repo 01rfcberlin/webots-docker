@@ -21,12 +21,13 @@ RUN pacman -Sy --noconfirm archlinux-keyring pacman-mirrorlist && pacman-key --i
     pip3 install -r projects/samples/contests/robocup/controllers/model_verifier/requirements.txt && \
     \
     echo "compilation fails, but we want to continue (until this is fixed)" && \
+    # don't hardcode -j16. this will fail on most computers. rather pass it like this `docker build --build-arg MAKEFLAGS=" -j16 "` and introduce `ARG MAKEFLAGS`
     (make -j16 || true) && \
     (cd projects/samples/contests/robocup/ && make -j16) && \
     \
     echo "removing stuff we don't need, to minimize final image" && \
     rm -rf .git docs projects/vehicles projects/robots/[^r]* projects/objects/buildings projects/objects/street_furniture projects/objects/road && \
-    rm $(find . | grep '\.d$') $(find . | grep '\.o$') && \
+    find -delete -name "*.d" -or -name "*.o" && \
     \
     \
     echo "Building the GameController" && \
@@ -42,7 +43,10 @@ RUN pacman -Sy --noconfirm archlinux-keyring pacman-mirrorlist && pacman-key --i
     useradd someone -m && \
     mkdir /robocup && chown someone:someone /robocup
 
+# What does this mean? What is special about /usr/bin/run? Why is there no
+# ENTRYPOINT command?
 COPY files/root/entrypoint.sh /usr/bin/run
+
 COPY files/etc/robocup /etc/robocup
 COPY --chown=someone:someone files/someone/ /home/someone
 

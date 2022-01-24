@@ -1,5 +1,9 @@
 #!/usr/bin/bash
 
+# See the changes in someone/entrypoint.sh
+
+# Also, why are there two entrypoints? That seems odd to me
+
 test -e /config/game.json || cp /etc/robocup/game.json /config
 test -e /config/empty-team/team.json || cp -r /etc/robocup/empty-team /config
 
