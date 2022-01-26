@@ -18,7 +18,7 @@ $ vim game.json # adjust team.json
 
 3. Start a game
 ```
-$ docker run --rm -e DISPLAY=${DISPLAY} -v /tmp/.X11-unix/:/tmp/.X11-unix --privileged \
+$ docker run --rm -e DISPLAY -v /tmp/.X11-unix/:/tmp/.X11-unix --privileged \
              -v $(pwd)/config:/config:ro \
              rfcberlin/webots webots-run --game
 ```
@@ -27,7 +27,7 @@ $ docker run --rm -e DISPLAY=${DISPLAY} -v /tmp/.X11-unix/:/tmp/.X11-unix --priv
 The path of the robot model must be relative to the `config` folder.
 
 ```
-$ docker run --rm -e DISPLAY=${DISPLAY} -v /tmp/.X11-unix/:/tmp/.X11-unix --privileged \
+$ docker run --rm -e DISPLAY -v /tmp/.X11-unix/:/tmp/.X11-unix --privileged \
              -v $(pwd)/config:/config:ro \
              rfcberlin/webots webots-run --model_checker webots-robot-models/RFCRobot2016/RFCRobot2016.proto
 ```
@@ -48,7 +48,7 @@ $ docker build . --build-arg MAKEFLAGS=" -j16 " -t rfcberlin/webots
 ### Prime-Run laptops with a dedicated nvidia graphic card
 you can use `prime-run` to get nvidia acceleration
  ```
-$ docker run --rm -e DISPLAY=${DISPLAY} -v /tmp/.X11-unix/:/tmp/.X11-unix --privileged \
+$ docker run --rm -e DISPLAY -v /tmp/.X11-unix/:/tmp/.X11-unix --privileged \
              -v $(pwd)/config:/config:ro \
              rfcberlin/webots prime-run webots-run --game
 ```
