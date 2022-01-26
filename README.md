@@ -40,7 +40,11 @@ $ docker build . --build-arg MAKEFLAGS=" -j16 " -t rfcberlin/webots
 ```
 
 
-## Tricks
+## Troubleshooting & Tricks
+### webots not showing anything
+- if webots doesn't start. Try to run `xhost +` on the host system.
+- you can also check if `${DISPLAY}` variable is set
+- check that `/tmp/.X11-unix/X0` exists (Number depends on `${DISPLAY}`)
 ### Prime-Run laptops with a dedicated nvidia graphic card
 you can use `prime-run` to get nvidia acceleration
  ```
