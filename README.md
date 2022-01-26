@@ -1,29 +1,33 @@
-Docker usage
-============
+# Docker usage
 
-Running a game container
+
+## Starting a game in 3 steps
+1. Create a config folder and populate it with basic configuration files:
 ```
-$ # create and initialize config folder
 $ mkdir config
-$ docker run --rm -e DISPLAY=${DISPLAY} -v /tmp/.X11-unix/:/tmp/.X11-unix --privileged \
-             -v $(pwd)/config:/config \
-             -ti rfcberlin/webots run --init
-$
-$ # add own models and/or adjust game.json
+$ docker run --rm -v $(pwd)/config:/config rfcberlin/webots webots-run --init
+
+```
+
+2. Adjust the game.json and add your robot models
+```
 $ cd config
 $ git clone git@github.com:01rfcberlin/webots-robot-models.git # (01 rfc berlin model)
 $ vim game.json # adjust team.json
-$ cd ..
-$
-$ # enjoy the game
-$ docker run --rm -e DISPLAY=${DISPLAY} -v /tmp/.X11-unix/:/tmp/.X11-unix --privileged \
-             -v $(pwd)/config:/config \
-             -ti rfcberlin/webots run
 ```
 
-Building images:
+3. Start a game
 ```
-$ docker . build -t rfcberlin/webots
+$ # enjoy the game
+$ docker run --rm -e DISPLAY=${DISPLAY} -v /tmp/.X11-unix/:/tmp/.X11-unix --privileged \
+             -v $(pwd)/config:/config:ro \
+             rfcberlin/webots webots-run --game
+```
+
+
+## Building the docker images (only required if you don't like the version in the online docker repo)
+```
+$ docker build . --build-arg MAKEFLAGS=" -j16 " -t rfcberlin/webots
 ```
 
 

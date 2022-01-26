@@ -1,0 +1,41 @@
+#!/usr/bin/bash
+
+cd /code/webots
+
+test -e /config/game.json || cp /etc/robocup/game.json /config
+test -e /config/empty-team/team.json || cp -r /etc/robocup/empty-team /config
+
+cp /config/game.json /code/webots/projects/samples/contests/robocup/controllers/referee
+
+for d in $(find /config -maxdepth 1 -type d | tail +2); do
+    cp -r "$d" "/code/webots/projects/samples/contests/robocup/protos/"
+    cp -r "$d" "/code/webots/projects/samples/contests/robocup/controllers/referee/"
+done
+
+export WEBOTS_HOME=/code/webots
+export QT_QPA_PLATFORM=
+export QT_PLUGIN_PATH=/usr/lib/qt/plugins/
+export GAME_CONTROLLER_HOME=/code/GameController
+export JAVA_HOME=/usr
+
+if ! [ -d /robocup ]; then
+    cp -r projects/samples/contests/robocup /
+fi
+
+
+if [ "$1" == "--init" ]; then
+    exit
+fi
+
+if [ "$1" == "--help" ]; then
+#TODO
+    echo "There should be be some helpful message here..."
+elif [ "$1" == "--model_checker" ]; then
+    shift;
+    exec ./projects/samples/contests/robocup/controllers/model_verifier/model_checker.sh "projects/samples/contests/robocup/protos/$1"
+elif [ "$1" == "--game" ]; then
+    shift;
+    exec ./webots projects/samples/contests/robocup/worlds/robocup.wbt --stdout --stderr
+else
+    echo "unknown command...try '--help'"
+fi
