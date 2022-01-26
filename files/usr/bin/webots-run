@@ -18,11 +18,6 @@ export QT_PLUGIN_PATH=/usr/lib/qt/plugins/
 export GAME_CONTROLLER_HOME=/code/GameController
 export JAVA_HOME=/usr
 
-if ! [ -d /robocup ]; then
-    cp -r projects/samples/contests/robocup /
-fi
-
-
 if [ "$1" == "--init" ]; then
     exit
 fi
