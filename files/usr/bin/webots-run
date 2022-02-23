@@ -31,6 +31,9 @@ elif [ "$1" == "--model_checker" ]; then
 elif [ "$1" == "--game" ]; then
     shift;
     exec ./webots projects/samples/contests/robocup/worlds/robocup.wbt --stdout --stderr
+elif [ "$1" == "--balls" ]; then
+    shift;
+    exec ./webots projects/samples/contests/robocup/worlds/robocup_balls.wbt --stdout --stderr
 else
     echo "unknown command...try '--help'"
 fi

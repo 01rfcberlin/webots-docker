@@ -11,9 +11,8 @@ RUN pacman -Sy --noconfirm archlinux-keyring pacman-mirrorlist && pacman-key --i
 
 # A minimal clone of the webots repository (this is mainly to generate smaller image sizes)
 FROM alpine/git AS minimal-webots-clone
-    RUN git clone -b archlinux https://github.com/SGSSGene/webots.git --depth 1 --recursive /code/webots && \
-    cd /code/webots && \
-    rm -rf .git docs projects/vehicles projects/robots/[^r]* projects/objects/buildings projects/objects/street_furniture projects/objects/road
+    RUN git clone -b archlinux https://github.com/SGSSGene/webots.git --depth 1 --recursive /code/webots
+    RUN (cd /code/webots && git pull)
 
 # compiling webots
 FROM updated-archlinux AS webots-build
@@ -24,16 +23,19 @@ COPY --from=minimal-webots-clone /code /code
 RUN pacman -Syu --noconfirm lsb-release cmake zsh swig freeimage boost zziplib zip pbzip2 wget unzip \
                             xorg-server-xvfb which glu nss libxcomposite libxrandr libxcursor ttf-dejavu \
                             libxi libxtst libxkbcommon alsa-lib libpulse libssh libzip glm qt5-base \
-                            gcc make libjpeg-turbo protobuf-c protobuf python && \
-    rm -R /var/cache/pacman/pkg/* /var/lib/pacman/sync/* && \
-    echo "Building webots and the player controller" && \
+                            gcc make libjpeg-turbo protobuf-c protobuf python jdk-openjdk && \
+    rm -R /var/cache/pacman/pkg/* /var/lib/pacman/sync/*
+RUN echo "Building webots and the player controller" && \
     export WEBOTS_HOME=/code/webots && \
     cd /code/webots && \
     \
     echo "compilation fails, but we want to continue (until this is fixed)" && \
+    (make -j 1 || true) && \
     (make || true) && \
-    (cd projects/samples/contests/robocup/ && make) && \
+    (cd projects/samples/contests/robocup/ && make)
+RUN cd /code/webots && \
     find . -name "*.d" -or -name "*.o" -delete && \
+    rm -rf .git docs projects/vehicles projects/robots/[^r]* projects/objects/buildings projects/objects/street_furniture projects/objects/road && \
     chmod o+rwX -R /code
 
 
@@ -81,6 +83,7 @@ RUN pacman -Syu --noconfirm freeimage boost zziplib  \
 COPY files/usr/bin/webots-run /usr/bin/webots-run
 COPY files/etc/robocup /etc/robocup
 COPY --chown=webots:webots files/webots/ /home/webots
+COPY files/robocup_balls.wbt /code/webots/projects/samples/contests/robocup/worlds/robocup_balls.wbt
 
 USER webots
 WORKDIR /code/webots

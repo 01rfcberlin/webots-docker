@@ -1,0 +1,81 @@
+#VRML_SIM R2021b utf8
+WorldInfo {
+  info [
+    "Description: official soccer simulation for the 2021 Robocup Virtual Humanoid League (kid size)"
+    "Version 0.2"
+  ]
+  title "Robocup V-HL Kid"
+  basicTimeStep 8
+  optimalThreadCount 1
+  physicsDisableTime 0.1
+  physicsDisableLinearThreshold 0.1
+  physicsDisableAngularThreshold 0.1
+  contactProperties [
+    ContactProperties {
+      material1 "grass"
+      coulombFriction [
+        0.5
+      ]
+      softCFM 0.03
+    }
+    ContactProperties {
+      material1 "grass"
+      material2 "robocup soccer ball"
+      coulombFriction [
+        0.5
+      ]
+      bounce 0.76
+      softCFM 0.05
+    }
+    ContactProperties {
+      material2 "robocup soccer ball"
+      bounce 0.76
+    }
+  ]
+}
+Viewpoint {
+  orientation 1 0 0 0 
+  position 0 0 14
+}
+Robot {
+  supervisor TRUE
+  controller "referee"
+}
+
+
+DEF BALL RobocupTexturedSoccerBall {
+  translation 0 0 0.07885480231787349
+  rotation 1 0 0 6.396578806279273e-06
+  texture "europass"
+}
+DEF BALL RobocupTexturedSoccerBall {
+  translation 1.5 -1.0 0.07885480231787349
+  rotation 1 0 0 6.396578806279273e-06
+  texture "europass"
+  name "ball1"
+}
+DEF BALL RobocupTexturedSoccerBall {
+  translation 1.5 -0.5 0.07885480231787349
+  rotation 1 0 0 6.396578806279273e-06
+  texture "jabulani"
+  name "ball2"
+}
+DEF BALL RobocupTexturedSoccerBall {
+  translation 1.5 0 0.07885480231787349
+  rotation 1 0 0 6.396578806279273e-06
+  texture "tango"
+  name "ball3"
+
+}
+DEF BALL RobocupTexturedSoccerBall {
+  translation 1.5 0.5 0.07885480231787349
+  rotation 1 0 0 6.396578806279273e-06
+  texture "teamgeist"
+  name "ball4"
+}
+DEF BALL RobocupTexturedSoccerBall {
+  translation 1.5 1. 0.07885480231787349
+  rotation 1 0 0 6.396578806279273e-06
+  texture "telstar"
+  name "ball5"
+}
