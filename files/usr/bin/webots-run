@@ -22,6 +22,10 @@ if [ "$1" == "--init" ]; then
     exit
 fi
 
+if [ "$1" == "--bash" ]; then
+    exec bash
+fi
+
 if [ "$1" == "--help" ]; then
 #TODO
     echo "There should be be some helpful message here..."
@@ -30,6 +34,14 @@ elif [ "$1" == "--model_checker" ]; then
     exec ./projects/samples/contests/robocup/controllers/model_verifier/model_checker.sh "projects/samples/contests/robocup/protos/$1"
 elif [ "$1" == "--game" ]; then
     shift;
+    if [ "$1" == "--show-gamecontroller" ]; then
+        shift;
+        export GCDISPLAY="${DISPLAY}"
+    else
+        Xvfb :2 -nolisten tcp &
+        export GCDISPLAY=":2"
+    fi
+
     exec ./webots projects/samples/contests/robocup/worlds/robocup.wbt --stdout --stderr
 elif [ "$1" == "--balls" ]; then
     shift;

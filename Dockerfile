@@ -67,7 +67,7 @@ RUN pacman -Syu --noconfirm freeimage boost zziplib  \
                           glu libxcomposite libxrandr libxcursor ttf-dejavu \
                           libxi libxtst libxkbcommon alsa-lib libpulse libssh libzip glm qt5-base \
                           libjpeg-turbo protobuf-c \
-                          python python-pip nvidia-prime \
+                          python python-pip nvidia-prime xorg-server-xvfb \
                           ant pandoc texlive-core && \
     rm -R /var/cache/pacman/pkg/* /var/lib/pacman/sync/* && \
     pip3 install -r /code/webots/projects/samples/contests/robocup/controllers/referee/requirements.txt && \
@@ -81,9 +81,12 @@ RUN pacman -Syu --noconfirm freeimage boost zziplib  \
 
 #TODO how should the entry point look like?
 COPY files/usr/bin/webots-run /usr/bin/webots-run
+COPY files/usr/bin/GameController.sh /usr/bin/GameController.sh
 COPY files/etc/robocup /etc/robocup
 COPY --chown=webots:webots files/webots/ /home/webots
 COPY files/robocup_balls.wbt /code/webots/projects/samples/contests/robocup/worlds/robocup_balls.wbt
+COPY files/referee.py /code/webots/projects/samples/contests/robocup/controllers/referee/referee.py
+
 
 USER webots
 WORKDIR /code/webots
