@@ -28,7 +28,7 @@ The path of the robot model must be relative to the `config` folder.
 
 ```
 $ docker run --rm -e DISPLAY -v /tmp/.X11-unix/:/tmp/.X11-unix --privileged \
-             -v $(pwd)/config:/config:ro \
+             -v $(pwd)/config:/config \
              rfcberlin/webots webots-run --model_checker webots-robot-models/RFCRobot2016/RFCRobot2016.proto
 ```
 
