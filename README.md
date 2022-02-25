@@ -19,7 +19,7 @@ $ vim game.json # adjust team.json
 3. Start a game
 ```
 $ docker run --rm -e DISPLAY -v /tmp/.X11-unix/:/tmp/.X11-unix --privileged \
-             -v $(pwd)/config:/config:ro \
+             -v $(pwd)/config:/config \
              rfcberlin/webots webots-run --game
 ```
 

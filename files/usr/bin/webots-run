@@ -18,6 +18,14 @@ export QT_PLUGIN_PATH=/usr/lib/qt/plugins/
 export GAME_CONTROLLER_HOME=/code/GameController
 export JAVA_HOME=/usr
 
+IP=$(ip a | grep eth0 -A 2 | grep inet | awk '{print $2}' | cut -f 1 -d '/')
+
+echo -e '\033[0;31m' # Color Red
+echo -n "simulator ip: ${IP}"
+echo -e '\033[0m' # No Color
+echo ${IP} > /config/sim_ip
+
+
 if [ "$1" == "--init" ]; then
     exit
 fi
@@ -52,22 +60,22 @@ elif [ "$1" == "--game" ]; then
         shift;
         export GCDISPLAY="${DISPLAY}"
     else
-        Xvfb :2 -nolisten tcp &
+        Xvfb :2 -nolisten tcp &>/dev/null &
         export GCDISPLAY=":2"
     fi
 
-    exec ./webots projects/samples/contests/robocup/worlds/robocup.wbt --stdout --stderr
+    exec ./webots projects/samples/contests/robocup/worlds/robocup.wbt --stdout --stderr >/config/webots_stdout.log 2>/config/webots_stderr.log
 elif [ "$1" == "--balls" ]; then
     shift;
     if [ "$1" == "--show-gamecontroller" ]; then
         shift;
         export GCDISPLAY="${DISPLAY}"
     else
-        Xvfb :2 -nolisten tcp &
+        Xvfb :2 -nolisten tcp &>/dev/null &
         export GCDISPLAY=":2"
     fi
 
-    exec ./webots projects/samples/contests/robocup/worlds/robocup_balls.wbt --stdout --stderr
+    exec ./webots projects/samples/contests/robocup/worlds/robocup_balls.wbt --stdout --stderr >/config/webots_stdout.log 2>/config/webots_stderr.log
 else
     echo "unknown command...try '--help'"
 fi
