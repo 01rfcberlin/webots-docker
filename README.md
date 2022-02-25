@@ -34,7 +34,8 @@ $ docker run --rm -e DISPLAY -v /tmp/.X11-unix/:/tmp/.X11-unix --privileged \
 
 
 
-## Building the docker images (only required if you don't like the version in the online docker repo)
+## Building the docker images
+This step is only required if you don't like the version in the online docker repo, or if you want to improve our docker scripts.
 ```
 $ docker build . --build-arg MAKEFLAGS=" -j16 " -t rfcberlin/webots
 ```
