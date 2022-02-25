@@ -83,9 +83,10 @@ RUN pacman -Syu --noconfirm freeimage boost zziplib  \
 COPY files/usr/bin/webots-run /usr/bin/webots-run
 COPY files/usr/bin/GameController.sh /usr/bin/GameController.sh
 COPY files/etc/robocup /etc/robocup
-COPY --chown=webots:webots files/webots/ /home/webots
 COPY files/robocup_balls.wbt /code/webots/projects/samples/contests/robocup/worlds/robocup_balls.wbt
 COPY files/referee.py /code/webots/projects/samples/contests/robocup/controllers/referee/referee.py
+COPY --chown=webots:webots files/webots/ /home/webots
+
 
 
 USER webots

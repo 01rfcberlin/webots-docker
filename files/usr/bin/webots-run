@@ -27,8 +27,22 @@ if [ "$1" == "--bash" ]; then
 fi
 
 if [ "$1" == "--help" ]; then
-#TODO
-    echo "There should be be some helpful message here..."
+    echo "webots-run is a small wrapper around webots to do some docker image specific adjustments"
+    echo
+    echo "Initializing a configuration folder into /config"
+    echo "    webots-run --init"
+    echo
+    echo "Starting a game with invisible GameController"
+    echo "    webots-run --game"
+    echo
+    echo "Starting a game with visible GameController"
+    echo "    webots-run --game --show-gamecontroller"
+    echo
+    echo "Start the model checker by calling (Notice that the path is relative to the given config folder)"
+    echo "    webots-run --model_checker webots-robot-models/RFCRobot2016/RFCRobot2016.proto"
+    echo
+    echo "Start the model checker by calling (Notice that the path is relative to the given config folder)"
+    echo "    webots-run --model_checker webots-robot-models/RFCRobot2016/RFCRobot2016.proto"
 elif [ "$1" == "--model_checker" ]; then
     shift;
     exec ./projects/samples/contests/robocup/controllers/model_verifier/model_checker.sh "projects/samples/contests/robocup/protos/$1"
@@ -45,6 +59,14 @@ elif [ "$1" == "--game" ]; then
     exec ./webots projects/samples/contests/robocup/worlds/robocup.wbt --stdout --stderr
 elif [ "$1" == "--balls" ]; then
     shift;
+    if [ "$1" == "--show-gamecontroller" ]; then
+        shift;
+        export GCDISPLAY="${DISPLAY}"
+    else
+        Xvfb :2 -nolisten tcp &
+        export GCDISPLAY=":2"
+    fi
+
     exec ./webots projects/samples/contests/robocup/worlds/robocup_balls.wbt --stdout --stderr
 else
     echo "unknown command...try '--help'"
