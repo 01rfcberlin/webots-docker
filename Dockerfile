@@ -27,11 +27,11 @@ RUN pacman -Syu --noconfirm lsb-release cmake zsh swig freeimage boost zziplib z
     rm -R /var/cache/pacman/pkg/* /var/lib/pacman/sync/*
 RUN echo "Building webots and the player controller" && \
     export WEBOTS_HOME=/code/webots && \
+    export JAVA_HOME=/usr/lib/jvm/java-17-openjdk && \
+    export PATH=/usr/lib/jvm/java-17-openjdk/bin:${PATH} && \
     cd /code/webots && \
     \
-    echo "compilation fails, but we want to continue (until this is fixed)" && \
-    (make -j 1 || true) && \
-    (make || true) && \
+    make && \
     (cd projects/samples/contests/robocup/ && make)
 RUN cd /code/webots && \
     find . -name "*.d" -or -name "*.o" -delete && \
@@ -52,7 +52,8 @@ RUN pacman -Syu --noconfirm protobuf ant && \
     rm -R /var/cache/pacman/pkg/* /var/lib/pacman/sync/* && \
     echo "Building the GameController" && \
     cd /code/GameController && \
-    export JAVA_HOME=/usr && \
+    export JAVA_HOME=/usr/lib/jvm/java-17-openjdk && \
+    export PATH=/usr/lib/jvm/java-17-openjdk/bin:${PATH} && \
     ant && \
     chmod o+rwX -R /code
 

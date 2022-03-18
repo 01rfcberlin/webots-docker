@@ -16,7 +16,8 @@ export WEBOTS_HOME=/code/webots
 export QT_QPA_PLATFORM=
 export QT_PLUGIN_PATH=/usr/lib/qt/plugins/
 export GAME_CONTROLLER_HOME=/code/GameController
-export JAVA_HOME=/usr
+export JAVA_HOME=/usr/lib/jvm/java-17-openjdk
+export PATH=/usr/lib/jvm/java-17-openjdk/bin:${PATH}
 
 IP=$(ip a | grep eth0 -A 2 | grep inet | awk '{print $2}' | cut -f 1 -d '/')
 
