@@ -27,8 +27,8 @@ RUN pacman -Syu --noconfirm lsb-release cmake zsh swig freeimage boost zziplib z
     rm -R /var/cache/pacman/pkg/* /var/lib/pacman/sync/*
 RUN echo "Building webots and the player controller" && \
     export WEBOTS_HOME=/code/webots && \
-    export JAVA_HOME=/usr/lib/jvm/java-17-openjdk && \
-    export PATH=/usr/lib/jvm/java-17-openjdk/bin:${PATH} && \
+    export JAVA_HOME=/usr/lib/jvm/java-18-openjdk && \
+    export PATH=/usr/lib/jvm/java-18-openjdk/bin:${PATH} && \
     cd /code/webots && \
     \
     make && \
@@ -52,8 +52,8 @@ RUN pacman -Syu --noconfirm protobuf ant && \
     rm -R /var/cache/pacman/pkg/* /var/lib/pacman/sync/* && \
     echo "Building the GameController" && \
     cd /code/GameController && \
-    export JAVA_HOME=/usr/lib/jvm/java-17-openjdk && \
-    export PATH=/usr/lib/jvm/java-17-openjdk/bin:${PATH} && \
+    export JAVA_HOME=/usr/lib/jvm/java-18-openjdk && \
+    export PATH=/usr/lib/jvm/java-18-openjdk/bin:${PATH} && \
     ant && \
     chmod o+rwX -R /code
 
